@@ -122,9 +122,9 @@ public struct ColorScheme {
     public let reasoning: String
 
     public init(primaryColor: SIMD3<Float>,
-                secondaryColor: SIMD3<Float],
-                accentColor: SIMD3<Float],
-                wallColor: SIMD3<Float],
+                secondaryColor: SIMD3<Float>,
+                accentColor: SIMD3<Float>,
+                wallColor: SIMD3<Float>,
                 flooringColor: SIMD3<Float>,
                 reasoning: String) {
         self.primaryColor = primaryColor
@@ -253,7 +253,7 @@ public final class DesignAIService {
         // Generate overall score
         let overallScore = calculateOverallLayoutScore(spacingIssues: spacingIssues.count,
                                                       trafficIssues: trafficFlowIssues.count,
-                                                      balanceScore: balanceAnalysis.score)
+                                                      balanceScore: balanceAnalysis.balanceScore)
 
         return RoomLayoutAnalysis(
             spacingIssues: spacingIssues,
@@ -574,9 +574,19 @@ public final class DesignAIService {
     }
 
     private func generateRecommendationTitle(request: DesignRecommendationRequest) -> String {
-        let roomType = request.userPreferences?.roomPurpose.rawValue.capitalized ?? "Room"
+        // RoomPurpose isn't RawRepresentable; use a display name if available elsewhere, otherwise map here
+        let roomPurposeName: String
+        switch request.userPreferences?.roomPurpose {
+        case .some(.living): roomPurposeName = "Living"
+        case .some(.bedroom): roomPurposeName = "Bedroom"
+        case .some(.dining): roomPurposeName = "Dining"
+        case .some(.office): roomPurposeName = "Office"
+        case .some(.mixed): roomPurposeName = "Room"
+        case .none: roomPurposeName = "Room"
+        }
+
         let itemCount = request.detectedFurniture.count
-        return "\(roomType) Design Recommendations (\(itemCount) items detected)"
+        return "\(roomPurposeName) Design Recommendations (\(itemCount) items detected)"
     }
 
     private func generateRecommendationDescription(request: DesignRecommendationRequest, analysis: RoomAnalysis) -> String {

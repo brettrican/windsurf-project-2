@@ -190,16 +190,25 @@ public enum DetectionError: LocalizedError, Equatable {
              (.insufficientComputeResources, .insufficientComputeResources):
             return true
 
-        case (.modelLoadingFailed(let lhsReason), .modelLoadingFailed(let rhsReason)),
-             (.unsupportedImageFormat(let lhsFormat), .unsupportedImageFormat(let rhsFormat)),
-             (.imageProcessingFailed(let lhsReason), .imageProcessingFailed(let rhsReason)),
-             (.detectionFailed(let lhsReason), .detectionFailed(let rhsReason)),
-             (.classificationFailed(let lhsReason), .classificationFailed(let rhsReason)),
-             (.unknownFurnitureType(let lhsType), .unknownFurnitureType(let rhsType)),
-             (.invalidDetectionResult(let lhsReason), .invalidDetectionResult(let rhsReason)),
-             (.incompatibleDataFormat(let lhsFormat), .incompatibleDataFormat(let rhsFormat)),
-             (.detectionSaveFailed(let lhsReason), .detectionSaveFailed(let rhsReason)),
-             (.detectionLoadFailed(let lhsReason), .detectionLoadFailed(let rhsReason)):
+        case (.modelLoadingFailed(let lhsReason), .modelLoadingFailed(let rhsReason)):
+            return lhsReason == rhsReason
+        case (.unsupportedImageFormat(let lhsFormat), .unsupportedImageFormat(let rhsFormat)):
+            return lhsFormat == rhsFormat
+        case (.imageProcessingFailed(let lhsReason), .imageProcessingFailed(let rhsReason)):
+            return lhsReason == rhsReason
+        case (.detectionFailed(let lhsReason), .detectionFailed(let rhsReason)):
+            return lhsReason == rhsReason
+        case (.classificationFailed(let lhsReason), .classificationFailed(let rhsReason)):
+            return lhsReason == rhsReason
+        case (.unknownFurnitureType(let lhsType), .unknownFurnitureType(let rhsType)):
+            return lhsType == rhsType
+        case (.invalidDetectionResult(let lhsReason), .invalidDetectionResult(let rhsReason)):
+            return lhsReason == rhsReason
+        case (.incompatibleDataFormat(let lhsFormat), .incompatibleDataFormat(let rhsFormat)):
+            return lhsFormat == rhsFormat
+        case (.detectionSaveFailed(let lhsReason), .detectionSaveFailed(let rhsReason)):
+            return lhsReason == rhsReason
+        case (.detectionLoadFailed(let lhsReason), .detectionLoadFailed(let rhsReason)):
             return lhsReason == rhsReason
 
         case (.ambiguousClassification(let lhsTypes), .ambiguousClassification(let rhsTypes)):
