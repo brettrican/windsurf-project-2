@@ -1,0 +1,48 @@
+name: InteriorAI
+options:
+  bundleIdPrefix: com.interiorai
+  deploymentTarget:
+    iOS: 16.0
+  xcodeVersion: "15.0"
+  generateInfoPlist: true
+  indentWidth: 2
+  tabWidth: 2
+  usesTabs: false
+  createIntermediateGroups: true
+  developmentLanguage: en
+  organizationName: "InteriorAI"
+
+targets:
+  InteriorAI:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.0"
+    sources: ["InteriorAI"]
+    info:
+      path: InteriorAI/Info.plist
+      properties:
+        UILaunchStoryboardName: LaunchScreen
+        UIRequiredDeviceCapabilities: ["arkit", "lidar"]
+        NSCameraUsageDescription: "InteriorAI needs camera access to scan your room and detect furniture using LiDAR."
+        NSPhotoLibraryUsageDescription: "InteriorAI needs photo library access to analyze existing room photos for design recommendations."
+        UIRequiresFullScreen: true
+        UISupportedInterfaceOrientations: ["UIInterfaceOrientationPortrait", "UIInterfaceOrientationLandscapeLeft", "UIInterfaceOrientationLandscapeRight"]
+        UIUserInterfaceStyle: Light
+    settings:
+      base:
+        ENABLE_BITCODE: NO
+        SWIFT_VERSION: 5.9
+        ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES: YES
+        CLANG_WARN_DOCUMENTATION_COMMENTS: YES
+        SWIFT_OPTIMIZATION_LEVEL: "-Onone"
+        SWIFT_ACTIVE_COMPILATION_CONDITIONS: DEBUG
+        OTHER_SWIFT_FLAGS: "-DDEBUG"
+        SWIFT_OBJC_BRIDGING_HEADER: "InteriorAI/InteriorAI-Bridging-Header.h"
+    dependencies:
+      - framework: ARKit.framework
+      - framework: CoreML.framework
+      - framework: Vision.framework
+      - framework: AVFoundation.framework
+      - framework: Security.framework
+      - framework: Combine.framework
+      - framework: simd.framework
