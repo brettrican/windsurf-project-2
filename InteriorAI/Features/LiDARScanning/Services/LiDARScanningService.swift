@@ -9,6 +9,7 @@ import Foundation
 import ARKit
 import AVFoundation
 import Combine
+import simd
 
 /// Scanning state
 public enum ScanningState {
@@ -182,7 +183,7 @@ public final class LiDARScanningService: NSObject {
 
     /// Gets the current scan progress
     public func getCurrentProgress() -> ScanProgress? {
-        guard let scanId = currentScanId else { return nil }
+        guard currentScanId != nil else { return nil }
 
         let currentPoints = pointCloudBuilder.currentPointCount
         let elapsedTime = scanStartTime.map { Date().timeIntervalSince($0) } ?? 0

@@ -9,6 +9,7 @@ import Foundation
 import CoreML
 import Vision
 import Combine
+import simd
 
 /// Design recommendation request
 public struct DesignRecommendationRequest {

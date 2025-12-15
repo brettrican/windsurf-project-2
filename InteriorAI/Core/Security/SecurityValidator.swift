@@ -29,7 +29,7 @@ public final class SecurityValidator {
         async let tamperingCheck = detectAppTampering()
         async let networkCheck = validateNetworkSecurity()
 
-        let results = try await [jailbreakCheck, debuggerCheck, tamperingCheck, networkCheck]
+        let results = await [jailbreakCheck, debuggerCheck, tamperingCheck, networkCheck]
 
         let duration = Date().timeIntervalSince(startTime)
         let overallStatus = results.allSatisfy { $0.isSecure }
@@ -412,13 +412,13 @@ public final class SecurityValidator {
     public func validateInput(_ input: String, for type: InputValidationType) throws {
         switch type {
         case .email:
-            validateEmail(input)
+            try validateEmail(input)
         case .password:
-            validatePassword(input)
+            try validatePassword(input)
         case .filename:
-            validateFilename(input)
+            try validateFilename(input)
         case .url:
-            validateURL(input)
+            try validateURL(input)
         }
     }
 

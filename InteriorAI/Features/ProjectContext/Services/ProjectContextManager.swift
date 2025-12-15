@@ -415,7 +415,7 @@ public final class ProjectContextManager {
     /// - Returns: Coherence analysis result
     /// - Throws: ProjectContextError if analysis fails
     public func validateContextCoherence() throws -> ContextCoherenceResult {
-        guard let projectId = activeProjectId else {
+        guard activeProjectId != nil else {
             throw ProjectContextError.noActiveProject
         }
 
