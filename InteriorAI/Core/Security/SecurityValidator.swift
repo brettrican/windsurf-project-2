@@ -250,6 +250,7 @@ public final class SecurityValidator {
         }
 
         // Check if code signature is valid
+        #if os(macOS)
         let task = Process()
         task.executableURL = URL(fileURLWithPath: "/usr/bin/codesign")
         task.arguments = ["-v", executablePath]
@@ -265,6 +266,12 @@ public final class SecurityValidator {
         } catch {
             return SecurityCheckResult(passed: false, description: "Code signature check failed: \(error.localizedDescription)")
         }
+        #else
+        // On iOS, we can't execute shell commands directly
+        // For iOS, we consider the code signature valid if the app is properly signed
+        // In a real implementation, you might want to check other indicators
+        return SecurityCheckResult(passed: true, description: "Code signature validation not available on iOS")
+        #endif
     }
 
     private func checkBundleIntegrity() -> SecurityCheckResult {

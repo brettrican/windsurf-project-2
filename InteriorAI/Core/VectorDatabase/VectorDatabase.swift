@@ -394,9 +394,10 @@ public final class VectorDatabase {
     // MARK: - Private Helper Methods
 
     private func getDatabaseSize() throws -> Int64 {
-        let storeURL = getStoreURL()
-        let attributes = try FileManager.default.attributesOfItem(atPath: storeURL.path)
-        return attributes[.size] as? Int64 ?? 0
+        // Since we're using in-memory storage for iOS, return estimated size
+        // In a real implementation, this would calculate actual storage size
+        let estimatedSizePerContext = Int64(1024) // 1KB per context
+        return Int64(contexts.count) * estimatedSizePerContext
     }
 
     private func generateAlignmentRecommendations(alignmentScore: Float, bestMatch: StoredContext) -> [String] {
