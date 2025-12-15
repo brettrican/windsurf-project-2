@@ -107,7 +107,7 @@ public struct StoredContext: Identifiable, Codable, Equatable {
                 relevanceScore: Float? = nil) {
         self.id = id
         self.type = type
-        self.title = title
+               self.title = title
         self.description = description
         self.embedding = embedding
         self.metadata = metadata
@@ -191,8 +191,8 @@ public final class VectorDatabase {
     /// Stores a new context in the vector database
     /// - Parameter context: The context to store
     /// - Throws: VectorDatabaseError if storage fails
-    public func storeContext(_ context: StoredContext) throws {
-        try queue.sync {
+    public func storeContext(_ context: StoredContext) {
+        queue.sync {
             contexts[context.id] = context
             Logger.shared.info("Context stored successfully: \(context.id)")
         }
@@ -201,8 +201,8 @@ public final class VectorDatabase {
     /// Stores multiple contexts in batch
     /// - Parameter contexts: Array of contexts to store
     /// - Throws: VectorDatabaseError if storage fails
-    public func storeContexts(_ contexts: [StoredContext]) throws {
-        try queue.sync {
+    public func storeContexts(_ contexts: [StoredContext]) {
+        queue.sync {
             for context in contexts {
                 self.contexts[context.id] = context
             }
@@ -215,12 +215,13 @@ public final class VectorDatabase {
     /// - Returns: The stored context
     /// - Throws: VectorDatabaseError if retrieval fails
     public func retrieveContext(id: UUID) throws -> StoredContext {
-        return try queue.sync {
-            guard let context = contexts[id] else {
-                throw VectorDatabaseError.contextNotFound(id)
-            }
-            return context
+        let context: StoredContext? = queue.sync {
+            return contexts[id]
         }
+        guard let context else {
+            throw VectorDatabaseError.contextNotFound(id)
+        }
+        return context
     }
 
     /// Searches for similar contexts using vector similarity
@@ -230,7 +231,7 @@ public final class VectorDatabase {
     public func searchContexts(_ query: ContextQuery) throws -> ContextSearchResult {
         let startTime = Date()
 
-        return try queue.sync {
+        let results: [StoredContext] = queue.sync {
             var candidates = Array(contexts.values)
 
             // Filter by types
@@ -262,15 +263,17 @@ public final class VectorDatabase {
                 .prefix(query.limit)
                 .map { $0 }
 
-            let searchTime = Date().timeIntervalSince(startTime)
-            Logger.shared.info("Vector search completed in \(String(format: "%.3f", searchTime))s, found \(results.count) results")
-
-            return ContextSearchResult(
-                contexts: Array(results),
-                totalMatches: results.count,
-                searchTime: searchTime
-            )
+            return Array(results)
         }
+
+        let searchTime = Date().timeIntervalSince(startTime)
+        Logger.shared.info("Vector search completed in \(String(format: "%.3f", searchTime))s, found \(results.count) results")
+
+        return ContextSearchResult(
+            contexts: results,
+            totalMatches: results.count,
+            searchTime: searchTime
+        )
     }
 
     /// Updates an existing context
@@ -279,12 +282,17 @@ public final class VectorDatabase {
     ///   - updates: The updated context data
     /// - Throws: VectorDatabaseError if update fails
     public func updateContext(id: UUID, updates: StoredContext) throws {
-        try queue.sync {
-            guard contexts[id] != nil else {
-                throw VectorDatabaseError.contextNotFound(id)
+        var notFound = false
+        queue.sync {
+            if contexts[id] == nil {
+                notFound = true
+            } else {
+                contexts[id] = updates
+                Logger.shared.info("Context updated successfully: \(id)")
             }
-            contexts[id] = updates
-            Logger.shared.info("Context updated successfully: \(id)")
+        }
+        if notFound {
+            throw VectorDatabaseError.contextNotFound(id)
         }
     }
 
@@ -292,19 +300,23 @@ public final class VectorDatabase {
     /// - Parameter id: The context ID to delete
     /// - Throws: VectorDatabaseError if deletion fails
     public func deleteContext(id: UUID) throws {
-        try queue.sync {
-            guard contexts.removeValue(forKey: id) != nil else {
-                throw VectorDatabaseError.contextNotFound(id)
+        var removed: StoredContext?
+        queue.sync {
+            removed = contexts.removeValue(forKey: id)
+            if removed != nil {
+                Logger.shared.info("Context deleted successfully: \(id)")
             }
-            Logger.shared.info("Context deleted successfully: \(id)")
+        }
+        guard removed != nil else {
+            throw VectorDatabaseError.contextNotFound(id)
         }
     }
 
     /// Deletes all contexts for a specific project
     /// - Parameter projectId: The project ID
     /// - Throws: VectorDatabaseError if deletion fails
-    public func deleteContexts(forProject projectId: UUID) throws {
-        try queue.sync {
+    public func deleteContexts(forProject projectId: UUID) {
+        queue.sync {
             let initialCount = contexts.count
             contexts = contexts.filter { $0.value.projectId != projectId }
             let deletedCount = initialCount - contexts.count
@@ -314,8 +326,8 @@ public final class VectorDatabase {
 
     /// Gets statistics about stored contexts
     /// - Returns: Database statistics
-    public func getStatistics() throws -> DatabaseStatistics {
-        return try queue.sync {
+    public func getStatistics() -> DatabaseStatistics {
+        return queue.sync {
             let totalContexts = contexts.count
             var typeCounts: [ContextType: Int] = [:]
 
@@ -393,7 +405,7 @@ public final class VectorDatabase {
 
     // MARK: - Private Helper Methods
 
-    private func getDatabaseSize() throws -> Int64 {
+    private func getDatabaseSize() -> Int64 {
         // Since we're using in-memory storage for iOS, return estimated size
         // In a real implementation, this would calculate actual storage size
         let estimatedSizePerContext = Int64(1024) // 1KB per context
@@ -469,3 +481,4 @@ public enum VectorDatabaseError: LocalizedError {
         }
     }
 }
+

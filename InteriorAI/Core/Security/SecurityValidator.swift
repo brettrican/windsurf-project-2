@@ -251,7 +251,7 @@ public final class SecurityValidator {
 
         // Check if code signature is valid
         #if os(macOS)
-        let task = Process()
+        let task = Foundation.Process()
         task.executableURL = URL(fileURLWithPath: "/usr/bin/codesign")
         task.arguments = ["-v", executablePath]
 
@@ -412,13 +412,13 @@ public final class SecurityValidator {
     public func validateInput(_ input: String, for type: InputValidationType) throws {
         switch type {
         case .email:
-            try validateEmail(input)
+            validateEmail(input)
         case .password:
-            try validatePassword(input)
+            validatePassword(input)
         case .filename:
-            try validateFilename(input)
+            validateFilename(input)
         case .url:
-            try validateURL(input)
+            validateURL(input)
         }
     }
 
@@ -447,10 +447,11 @@ public final class SecurityValidator {
         let hasUppercase = password.contains { $0.isUppercase }
         let hasLowercase = password.contains { $0.isLowercase }
         let hasDigit = password.contains { $0.isNumber }
-        let hasSpecial = password.contains { "!@#$%^&*()_+-=[]{}|;:,.<>?".contains($0) }
+        let specialCharacters = "!@#$%^&*()_+-=[]{}|;:,.<>?"
+        let hasSpecial = password.contains { specialCharacters.contains($0) }
 
-        guard hasUppercase && hasLowercase && hasDigit else {
-            throw SecurityError.inputValidationFailed("Password must contain uppercase, lowercase, and numeric characters")
+        guard hasUppercase && hasLowercase && hasDigit && hasSpecial else {
+            throw SecurityError.inputValidationFailed("Password must contain uppercase, lowercase, numeric, and special characters")
         }
     }
 
@@ -550,3 +551,4 @@ public enum SecurityError: LocalizedError {
         }
     }
 }
+

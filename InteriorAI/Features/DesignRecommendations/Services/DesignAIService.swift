@@ -9,7 +9,6 @@ import Foundation
 import CoreML
 import Vision
 import Combine
-import simd
 
 /// Design recommendation request
 public struct DesignRecommendationRequest {
@@ -329,7 +328,7 @@ public final class DesignAIService {
     private func performRecommendationGeneration(request: DesignRecommendationRequest,
                                                completion: @escaping (Result<DesignRecommendation, DesignAIError>) -> Void) {
 
-        let startTime = Date()
+        _ = Date()
         recommendationProgress.send(0.1)
 
         // Analyze current room state
@@ -906,3 +905,4 @@ public enum DesignAIError: LocalizedError {
         }
     }
 }
+
