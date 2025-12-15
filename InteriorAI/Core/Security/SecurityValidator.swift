@@ -412,13 +412,13 @@ public final class SecurityValidator {
     public func validateInput(_ input: String, for type: InputValidationType) throws {
         switch type {
         case .email:
-            try validateEmail(input)
+            validateEmail(input)
         case .password:
-            try validatePassword(input)
+            validatePassword(input)
         case .filename:
-            try validateFilename(input)
+            validateFilename(input)
         case .url:
-            try validateURL(input)
+            validateURL(input)
         }
     }
 
