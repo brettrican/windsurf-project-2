@@ -9,7 +9,6 @@ import Foundation
 import ARKit
 import AVFoundation
 import Combine
-import simd
 
 /// Scanning state
 public enum ScanningState {
@@ -153,7 +152,7 @@ public final class LiDARScanningService: NSObject {
     public func stopScan() throws {
         Logger.shared.lidar("Stopping LiDAR scan")
 
-        guard let scanId = currentScanId else {
+        guard let _ = currentScanId else {
             throw LiDARError.scanInitializationFailed("No active scan to stop")
         }
 
@@ -168,7 +167,7 @@ public final class LiDARScanningService: NSObject {
 
         // Process accumulated data
         processingQueue.async { [weak self] in
-            self?.processScanData(scanId: scanId)
+            self?.processScanData(scanId: self!.currentScanId!)
         }
     }
 
@@ -194,7 +193,7 @@ public final class LiDARScanningService: NSObject {
         return ScanProgress(
             state: .scanning,
             progress: progress,
-            currentPoints: currentPoints(),
+            currentPoints: currentPoints,
             estimatedTimeRemaining: ARConstants.maxScanDuration - elapsedTime,
             qualityMetrics: qualityMetrics
         )
@@ -414,7 +413,6 @@ private class PointCloudBuilder {
 
     func addFrame(_ frame: ARFrame) {
         guard let sceneDepth = frame.sceneDepth else { return }
-        guard let smoothedDepth = frame.smoothedSceneDepth else { return }
 
         // Convert depth data to point cloud
         let depthData = sceneDepth.depthMap
@@ -504,9 +502,7 @@ private class PointCloudBuilder {
         return BoundingBox(points: positions) ?? BoundingBox(min: .zero, max: .zero)
     }
 
-    func currentPointCount() -> Int {
-        return points.count
-    }
+    var currentPointCount: Int { points.count }
 
     func getQualityMetrics() -> ScanQualityMetrics {
         let averageConfidence = points.isEmpty ? 0 : points.reduce(0) { $0 + $1.confidence } / Float(points.count)
@@ -600,3 +596,4 @@ private class PointCloudBuilder {
         return SIMD3<UInt8>(red, green, blue)
     }
 }
+

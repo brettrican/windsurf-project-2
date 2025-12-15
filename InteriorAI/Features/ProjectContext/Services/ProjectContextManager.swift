@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import simd
 
 /// Project context manager for maintaining design coherence
 public final class ProjectContextManager {
@@ -38,8 +37,8 @@ public final class ProjectContextManager {
     ///   - initialGoal: Initial design goal description
     /// - Throws: ProjectContextError if project creation fails
     public func startProject(projectId: UUID? = nil, initialGoal: String) throws {
-        let projectId = projectId ?? UUID()
-        Logger.shared.info("Starting new project: \(projectId)")
+        let newProjectId = projectId ?? UUID()
+        Logger.shared.info("Starting new project: \(newProjectId)")
 
         // Create initial design goal context
         let goalContext = StoredContext(
@@ -48,14 +47,14 @@ public final class ProjectContextManager {
             description: initialGoal,
             embedding: generateTextEmbedding(initialGoal),
             metadata: ["phase": "initialization"],
-            projectId: projectId
+            projectId: newProjectId
         )
 
         try vectorDatabase.storeContext(goalContext)
-        activeProjectId = projectId
+        activeProjectId = newProjectId
         contextCache[goalContext.id] = goalContext
 
-        contextUpdated.send(projectId)
+        contextUpdated.send(newProjectId)
         Logger.shared.info("Project started successfully")
     }
 
@@ -563,3 +562,4 @@ public enum ProjectContextError: LocalizedError {
         }
     }
 }
+

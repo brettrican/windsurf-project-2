@@ -107,7 +107,7 @@ public final class Logger {
     // MARK: - Setup
     private func setupLoggingInfrastructure() {
         // Create logs directory if needed
-        guard let logsDirectory = getLogsDirectory() else {
+        guard getLogsDirectory() != nil else {
             print("Failed to create logs directory")
             return
         }
@@ -544,3 +544,4 @@ public func logError(_ message: String, error: Error? = nil, category: LogCatego
 public func logCritical(_ message: String, error: Error? = nil, category: LogCategory = .general, file: String = #file, function: String = #function, line: Int = #line) {
     Logger.shared.critical(message, error: error, category: category, file: file, function: function, line: line)
 }
+
