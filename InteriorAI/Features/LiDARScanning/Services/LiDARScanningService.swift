@@ -225,13 +225,8 @@ public final class LiDARScanningService: NSObject {
             return
         }
 
-        do {
-            arSession?.run(configuration)
-            Logger.shared.lidar("AR session started successfully")
-        } catch {
-            let lidarError = LiDARError.arSessionFailed(error.localizedDescription)
-            handleScanError(lidarError)
-        }
+        arSession?.run(configuration)
+        Logger.shared.lidar("AR session started successfully")
     }
 
     private func stopARSession() {

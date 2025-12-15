@@ -8,35 +8,27 @@
 
 /* Begin PBXBuildFile section */
 		092C8794FF82ACCF6FB872C7 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C42F8D84AAF8A255A6737C8 /* Logger.swift */; };
-		172C05541519EECDCF3EA6FC /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7371906159AF0DC6853823 /* CoreML.framework */; };
-		224651BB04A2F648C573C9F7 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51AFC6BED8F69E5CECE18E55 /* ARKit.framework */; };
 		275A485B427EE1B3B29A0CBC /* FurnitureDetectionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012E8B344C3295DB7A45AC90 /* FurnitureDetectionService.swift */; };
 		2785CAC2AE405AD5FA019481 /* PointCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121640C186E974B409E97CFB /* PointCloud.swift */; };
-		2D25B2BF65A77179B0EDE8FE /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F519F46E7C40C77BA187F24 /* Vision.framework */; };
-		5412F4266A70A17886AAFAC7 /* ARKit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 51AFC6BED8F69E5CECE18E55 /* ARKit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5B990E773AFC450671778AF1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C96154E915A30F5614264C6 /* SceneDelegate.swift */; };
 		6749FFA9BD494D0EF127451C /* ProjectContextManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADD0DD33F71028795517A2B /* ProjectContextManager.swift */; };
 		6AD27CAB94D936E4D47BD45A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE95A24CABD8E7756141E971 /* AppDelegate.swift */; };
-		6E082AF3CCF8492053083BB6 /* Security.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = A907D3CE5DEE07757030E9FB /* Security.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		70E6AF4DF6C5FB29365AD14C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0831F5170DC6E0CBBD29B582 /* LaunchScreen.storyboard */; };
 		78E3E7238AEB8592CBD9D4EE /* DetectionError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64A6270BC4AFD5E9B8EE48F0 /* DetectionError.swift */; };
 		7CB6C88B8E99B9112754F406 /* DesignAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6AF13426C5C4724ED6B32D /* DesignAIService.swift */; };
-		81355341278B88551FA209A0 /* Combine.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = F4AA56C3B360044436AC4936 /* Combine.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		81CB5D583EF0B34AAD04B0BE /* LiDARError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC5AF10337F87C48DD2A6D7 /* LiDARError.swift */; };
 		837C0150E79FCEA4ACD7DA7F /* SecurityValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CBCC19CE76B1270104B15D8 /* SecurityValidator.swift */; };
-		97D34D68B33C3E5AB5070BC2 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A907D3CE5DEE07757030E9FB /* Security.framework */; };
-		988501A537BAF2529819036A /* AVFoundation.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91F8B40149B3E1C626CF2B7D /* AVFoundation.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		99529C7E2F9B02AAB173A589 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F4AA56C3B360044436AC4936 /* Combine.framework */; };
-		9D892FD6DCB61B0D1928464E /* CoreML.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7E7371906159AF0DC6853823 /* CoreML.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		A0199557649E53DB847D4D8A /* simd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7568E387417A3A8AD1D953CC /* simd.framework */; };
+		93A456552EEFEE0E003D5B74 /* ARKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A456542EEFEE0E003D5B74 /* ARKit.framework */; };
+		93A456572EEFEE21003D5B74 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A456562EEFEE21003D5B74 /* AVFoundation.framework */; };
+		93A456592EEFEE2B003D5B74 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A456582EEFEE2B003D5B74 /* Combine.framework */; };
+		93A4565B2EEFEE39003D5B74 /* CoreML.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A4565A2EEFEE39003D5B74 /* CoreML.framework */; };
+		93A4565D2EEFEE4C003D5B74 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A4565C2EEFEE4C003D5B74 /* Security.framework */; };
+		93A4565F2EEFEE55003D5B74 /* Vision.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 93A4565E2EEFEE55003D5B74 /* Vision.framework */; };
 		AA15F36CE31F2E3FD9F04467 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB49B8611A21C9CDA854A62 /* ContentView.swift */; };
-		BE1EEFE9E62A1DBAC541CA11 /* Vision.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7F519F46E7C40C77BA187F24 /* Vision.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BF7A85D7BA54F80F5F68DFAD /* LiDARScanningService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C0689FA7A0A827C13A073B3 /* LiDARScanningService.swift */; };
-		C9A3AD02583935B3FF84217B /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91F8B40149B3E1C626CF2B7D /* AVFoundation.framework */; };
 		CF192DDC1CB8AD3A851E9C84 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465245F63C0E23E6C6AE25CD /* Constants.swift */; };
 		E9C4F4D1054F43DCEEE6AAEF /* VectorDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E80A4E892ECDCEDCDFE9ADE /* VectorDatabase.swift */; };
 		EA6C07C8C39B6666EC078032 /* KeychainManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E9537212C15216CF7D04B1F /* KeychainManager.swift */; };
-		F28E845AB58813EED92C0376 /* simd.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7568E387417A3A8AD1D953CC /* simd.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F387CF5D7A81844404A8B1B8 /* DetectedFurniture.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5C1EAF44F8AEBB3074CD189 /* DetectedFurniture.swift */; };
 		F9D2B2244A0CCB06043E8963 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F17B4CE2FF0D47A9334BB1C2 /* APIClient.swift */; };
 /* End PBXBuildFile section */
@@ -48,13 +40,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				5412F4266A70A17886AAFAC7 /* ARKit.framework in Embed Frameworks */,
-				9D892FD6DCB61B0D1928464E /* CoreML.framework in Embed Frameworks */,
-				BE1EEFE9E62A1DBAC541CA11 /* Vision.framework in Embed Frameworks */,
-				988501A537BAF2529819036A /* AVFoundation.framework in Embed Frameworks */,
-				6E082AF3CCF8492053083BB6 /* Security.framework in Embed Frameworks */,
-				81355341278B88551FA209A0 /* Combine.framework in Embed Frameworks */,
-				F28E845AB58813EED92C0376 /* simd.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -71,24 +56,23 @@
 		3C96154E915A30F5614264C6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		465245F63C0E23E6C6AE25CD /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		4AC5AF10337F87C48DD2A6D7 /* LiDARError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiDARError.swift; sourceTree = "<group>"; };
-		51AFC6BED8F69E5CECE18E55 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ARKit.framework; sourceTree = "<group>"; };
 		574E8EA570B9024815CAB54F /* InteriorAI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "InteriorAI-Bridging-Header.h"; sourceTree = "<group>"; };
 		5ADD0DD33F71028795517A2B /* ProjectContextManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProjectContextManager.swift; sourceTree = "<group>"; };
 		64A6270BC4AFD5E9B8EE48F0 /* DetectionError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionError.swift; sourceTree = "<group>"; };
 		6C42F8D84AAF8A255A6737C8 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
-		7568E387417A3A8AD1D953CC /* simd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = simd.framework; sourceTree = "<group>"; };
 		7C0689FA7A0A827C13A073B3 /* LiDARScanningService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiDARScanningService.swift; sourceTree = "<group>"; };
-		7E7371906159AF0DC6853823 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CoreML.framework; sourceTree = "<group>"; };
-		7F519F46E7C40C77BA187F24 /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Vision.framework; sourceTree = "<group>"; };
 		8C8A8E3A37A734B36B8F447E /* InteriorAI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InteriorAI.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		91F8B40149B3E1C626CF2B7D /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AVFoundation.framework; sourceTree = "<group>"; };
-		A907D3CE5DEE07757030E9FB /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Security.framework; sourceTree = "<group>"; };
+		93A456542EEFEE0E003D5B74 /* ARKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ARKit.framework; path = System/Library/Frameworks/ARKit.framework; sourceTree = SDKROOT; };
+		93A456562EEFEE21003D5B74 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		93A456582EEFEE2B003D5B74 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = System/Library/Frameworks/Combine.framework; sourceTree = SDKROOT; };
+		93A4565A2EEFEE39003D5B74 /* CoreML.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreML.framework; path = System/Library/Frameworks/CoreML.framework; sourceTree = SDKROOT; };
+		93A4565C2EEFEE4C003D5B74 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		93A4565E2EEFEE55003D5B74 /* Vision.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vision.framework; path = System/Library/Frameworks/Vision.framework; sourceTree = SDKROOT; };
 		B80E2EA7DCC567E5986BE576 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C5C1EAF44F8AEBB3074CD189 /* DetectedFurniture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectedFurniture.swift; sourceTree = "<group>"; };
 		DBB49B8611A21C9CDA854A62 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		EF6AF13426C5C4724ED6B32D /* DesignAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignAIService.swift; sourceTree = "<group>"; };
 		F17B4CE2FF0D47A9334BB1C2 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		F4AA56C3B360044436AC4936 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Combine.framework; sourceTree = "<group>"; };
 		FE95A24CABD8E7756141E971 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -97,13 +81,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				224651BB04A2F648C573C9F7 /* ARKit.framework in Frameworks */,
-				172C05541519EECDCF3EA6FC /* CoreML.framework in Frameworks */,
-				2D25B2BF65A77179B0EDE8FE /* Vision.framework in Frameworks */,
-				C9A3AD02583935B3FF84217B /* AVFoundation.framework in Frameworks */,
-				97D34D68B33C3E5AB5070BC2 /* Security.framework in Frameworks */,
-				99529C7E2F9B02AAB173A589 /* Combine.framework in Frameworks */,
-				A0199557649E53DB847D4D8A /* simd.framework in Frameworks */,
+				93A4565D2EEFEE4C003D5B74 /* Security.framework in Frameworks */,
+				93A4565F2EEFEE55003D5B74 /* Vision.framework in Frameworks */,
+				93A4565B2EEFEE39003D5B74 /* CoreML.framework in Frameworks */,
+				93A456592EEFEE2B003D5B74 /* Combine.framework in Frameworks */,
+				93A456572EEFEE21003D5B74 /* AVFoundation.framework in Frameworks */,
+				93A456552EEFEE0E003D5B74 /* ARKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -161,13 +144,12 @@
 		618E8E2851952E274FE4DCBD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				51AFC6BED8F69E5CECE18E55 /* ARKit.framework */,
-				91F8B40149B3E1C626CF2B7D /* AVFoundation.framework */,
-				F4AA56C3B360044436AC4936 /* Combine.framework */,
-				7E7371906159AF0DC6853823 /* CoreML.framework */,
-				A907D3CE5DEE07757030E9FB /* Security.framework */,
-				7568E387417A3A8AD1D953CC /* simd.framework */,
-				7F519F46E7C40C77BA187F24 /* Vision.framework */,
+				93A4565E2EEFEE55003D5B74 /* Vision.framework */,
+				93A4565C2EEFEE4C003D5B74 /* Security.framework */,
+				93A4565A2EEFEE39003D5B74 /* CoreML.framework */,
+				93A456582EEFEE2B003D5B74 /* Combine.framework */,
+				93A456562EEFEE21003D5B74 /* AVFoundation.framework */,
+				93A456542EEFEE0E003D5B74 /* ARKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -427,17 +409,21 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\".\"",
 				);
 				INFOPLIST_FILE = InteriorAI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				INFOPLIST_KEY_CFBundleDisplayName = InteriorAI;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1;
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.interiorai.InteriorAI;
 				SDKROOT = iphoneos;
@@ -518,17 +504,21 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\".\"",
 				);
 				INFOPLIST_FILE = InteriorAI/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				INFOPLIST_KEY_CFBundleDisplayName = InteriorAI;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1;
 				OTHER_SWIFT_FLAGS = "-DDEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.interiorai.InteriorAI;
 				SDKROOT = iphoneos;

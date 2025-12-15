@@ -7,7 +7,6 @@
 
 import Foundation
 import Combine
-import simd
 
 /// Represents a vector embedding for similarity search
 public struct VectorEmbedding: Codable, Equatable {
@@ -191,7 +190,7 @@ public final class VectorDatabase {
     /// Stores a new context in the vector database
     /// - Parameter context: The context to store
     /// - Throws: VectorDatabaseError if storage fails
-    public func storeContext(_ context: StoredContext) {
+    public func storeContext(_ context: StoredContext) throws {
         queue.sync {
             contexts[context.id] = context
             Logger.shared.info("Context stored successfully: \(context.id)")
@@ -201,7 +200,7 @@ public final class VectorDatabase {
     /// Stores multiple contexts in batch
     /// - Parameter contexts: Array of contexts to store
     /// - Throws: VectorDatabaseError if storage fails
-    public func storeContexts(_ contexts: [StoredContext]) {
+    public func storeContexts(_ contexts: [StoredContext]) throws {
         queue.sync {
             for context in contexts {
                 self.contexts[context.id] = context
