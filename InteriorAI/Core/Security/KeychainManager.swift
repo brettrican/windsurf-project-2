@@ -107,7 +107,7 @@ public final class KeychainManager {
     /// - Throws: KeychainError if retrieval fails
     public func retrieveString(forKey key: String) throws -> String {
         let data = try retrieveData(forKey: key)
-        guard let string = String(data: data, using: .utf8) else {
+        guard let string = String(data: data, encoding: .utf8) else {
             throw KeychainError.invalidData
         }
         return string

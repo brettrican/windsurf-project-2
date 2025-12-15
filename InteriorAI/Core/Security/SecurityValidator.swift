@@ -20,7 +20,7 @@ public final class SecurityValidator {
     // MARK: - Jailbreak Detection
 
     /// Performs comprehensive jailbreak detection
-    public func performSecurityCheck() async throws -> SecurityCheckResult {
+    public func performSecurityCheck() async throws -> SecurityValidationResult {
         let startTime = Date()
 
         // Run all security checks concurrently
@@ -34,7 +34,7 @@ public final class SecurityValidator {
         let duration = Date().timeIntervalSince(startTime)
         let overallStatus = results.allSatisfy { $0.isSecure }
 
-        return SecurityCheckResult(
+        return SecurityValidationResult(
             isSecure: overallStatus,
             checks: results,
             timestamp: Date(),
@@ -543,7 +543,3 @@ public enum SecurityError: LocalizedError {
         }
     }
 }
-
-// MARK: - Type Aliases
-
-public typealias SecurityCheck = SecurityCheck

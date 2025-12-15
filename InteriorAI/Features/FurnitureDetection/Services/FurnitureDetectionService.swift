@@ -194,16 +194,14 @@ public final class FurnitureDetectionService {
     private func loadModel(named modelName: String, completion: @escaping (Result<VNCoreMLModel, DetectionError>) -> Void) {
         modelQueue.async {
             do {
-                // Try to load model from bundle
+                // Load compiled model from bundle (.mlmodelc)
                 guard let modelURL = Bundle.main.url(forResource: modelName, withExtension: "mlmodelc") else {
-                    // Model not in bundle, try to download or use default
                     Logger.shared.warning("Model \(modelName) not found in bundle, using fallback", category: .detection)
                     completion(.failure(.modelNotFound(modelName)))
                     return
                 }
 
-                let compiledModelURL = try MLModel.compileModel(at: modelURL)
-                let mlModel = try MLModel(contentsOf: compiledModelURL)
+                let mlModel = try MLModel(contentsOf: modelURL)
                 let vnModel = try VNCoreMLModel(for: mlModel)
 
                 completion(.success(vnModel))
@@ -355,22 +353,24 @@ public final class FurnitureDetectionService {
 
         guard let topLabel = observation.labels.first else { return nil }
 
-        // Map label to furniture category
-        guard let category = FurnitureCategory(rawValue: topLabel.identifier) else {
-            // Try to map common labels to categories
-            let mappedCategory = mapLabelToCategory(topLabel.identifier)
-            guard let category = mappedCategory else { return nil }
-        }
+        // Resolve furniture category from label or mapping
+        let resolvedCategory: FurnitureCategory = FurnitureCategory(rawValue: topLabel.identifier)
+            ?? mapLabelToCategory(topLabel.identifier)
+            ?? .unknown
 
-        // Create bounding box
+        // Create bounding box from observation's rect
+        let rect = observation.boundingBox
         let boundingBox = DetectionBoundingBox(
-            observation: observation,
+            x: rect.origin.x,
+            y: rect.origin.y,
+            width: rect.size.width,
+            height: rect.size.height,
             imageSize: imageSize
         )
 
         // Create detection
         let detection = DetectedFurniture(
-            category: category,
+            category: resolvedCategory,
             confidence: observation.confidence,
             boundingBox: boundingBox,
             metadata: [
@@ -381,8 +381,7 @@ public final class FurnitureDetectionService {
 
         // Perform additional classification if enabled
         if configuration.enableClassification && classificationModel != nil {
-            // Additional classification would go here
-            // For now, we keep the basic detection
+            // Additional classification would be implemented here
         }
 
         return detection

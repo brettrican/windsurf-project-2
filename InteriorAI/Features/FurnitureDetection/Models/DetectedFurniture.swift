@@ -161,6 +161,15 @@ public struct DetectionBoundingBox: Codable, Equatable {
         self.imageSize = imageSize
     }
 
+    /// Creates a bounding box from a VNRecognizedObjectObservation
+    public init(observation: VNRecognizedObjectObservation, imageSize: CGSize) {
+        self.x = observation.boundingBox.origin.x
+        self.y = observation.boundingBox.origin.y
+        self.width = observation.boundingBox.width
+        self.height = observation.boundingBox.height
+        self.imageSize = imageSize
+    }
+
     /// Converts to absolute pixel coordinates
     public var pixelRect: CGRect {
         return CGRect(

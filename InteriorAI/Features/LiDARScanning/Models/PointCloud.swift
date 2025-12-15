@@ -135,8 +135,12 @@ public struct BoundingBox: Codable, Equatable {
         var max = points[0]
 
         for point in points.dropFirst() {
-            min = min.min(point)
-            max = max.max(point)
+            min.x = Swift.min(min.x, point.x)
+            min.y = Swift.min(min.y, point.y)
+            min.z = Swift.min(min.z, point.z)
+            max.x = Swift.max(max.x, point.x)
+            max.y = Swift.max(max.y, point.y)
+            max.z = Swift.max(max.z, point.z)
         }
 
         self.min = min

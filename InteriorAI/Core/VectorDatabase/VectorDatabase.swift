@@ -12,7 +12,7 @@ import simd
 /// Represents a vector embedding for similarity search
 public struct VectorEmbedding: Codable, Equatable {
     /// The vector data (512 dimensions as per constants)
-    public let vector: [Float]
+    public var vector: [Float]
 
     /// Dimensionality of the vector
     public var dimensions: Int {

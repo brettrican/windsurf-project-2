@@ -194,7 +194,7 @@ public final class LiDARScanningService: NSObject {
         return ScanProgress(
             state: .scanning,
             progress: progress,
-            currentPoints: currentPoints,
+            currentPoints: currentPoints(),
             estimatedTimeRemaining: ARConstants.maxScanDuration - elapsedTime,
             qualityMetrics: qualityMetrics
         )
@@ -435,7 +435,8 @@ private class PointCloudBuilder {
             for x in stride(from: 0, to: width, by: step) {
                 // Get depth value
                 let depthValue = getDepthValue(at: x, y: y, from: depthData)
-                let confidenceValue = getConfidenceValue(at: x, y: y, from: confidenceData)
+                guard let confidenceBuffer = confidenceData else { continue }
+                let confidenceValue = getConfidenceValue(at: x, y: y, from: confidenceBuffer)
 
                 // Skip invalid depths
                 guard depthValue > 0 && confidenceValue > 0 else { continue }
@@ -445,7 +446,8 @@ private class PointCloudBuilder {
                 let normalizedY = (Float(y) - intrinsics[2][1]) / intrinsics[1][1]
 
                 let cameraPoint = SIMD3<Float>(normalizedX * depthValue, normalizedY * depthValue, -depthValue)
-                let worldPoint = matrix_multiply(cameraTransform, SIMD4<Float>(cameraPoint, 1)).xyz
+                let worldPoint4 = matrix_multiply(cameraTransform, SIMD4<Float>(cameraPoint, 1))
+                let worldPoint = SIMD3<Float>(worldPoint4.x, worldPoint4.y, worldPoint4.z)
 
                 // Create point with color if available
                 let color = getColorFromFrame(frame, at: x, y: y)
@@ -562,7 +564,8 @@ private class PointCloudBuilder {
     }
 
     private func getColorFromFrame(_ frame: ARFrame, at x: Int, y: Int) -> SIMD3<UInt8>? {
-        guard let capturedImage = frame.capturedImage else { return nil }
+        // capturedImage is non-optional CVPixelBuffer
+        let capturedImage = frame.capturedImage
 
         CVPixelBufferLockBaseAddress(capturedImage, .readOnly)
         defer { CVPixelBufferUnlockBaseAddress(capturedImage, .readOnly) }
@@ -573,14 +576,21 @@ private class PointCloudBuilder {
         let height = CVPixelBufferGetHeight(capturedImage)
         let bytesPerRow = CVPixelBufferGetBytesPerRow(capturedImage)
 
+        // Safely unwrap sceneDepth before using it
+        guard let sceneDepth = frame.sceneDepth else { return nil }
+        let depthWidth = CVPixelBufferGetWidth(sceneDepth.depthMap)
+        let depthHeight = CVPixelBufferGetHeight(sceneDepth.depthMap)
+
         // Convert coordinates (depth map may have different resolution than camera image)
-        let scaleX = Float(CVPixelBufferGetWidth(capturedImage)) / Float(CVPixelBufferGetWidth(frame.sceneDepth!.depthMap))
-        let scaleY = Float(CVPixelBufferGetHeight(capturedImage)) / Float(CVPixelBufferGetHeight(frame.sceneDepth!.depthMap))
+        let scaleX = Float(width) / Float(depthWidth)
+        let scaleY = Float(height) / Float(depthHeight)
 
         let imageX = min(Int(Float(x) * scaleX), width - 1)
         let imageY = min(Int(Float(y) * scaleY), height - 1)
 
-        let pixelPtr = baseAddress.advanced(by: imageY * bytesPerRow + imageX * 4).assumingMemoryBound(to: UInt8.self)
+        let pixelPtr = baseAddress
+            .advanced(by: imageY * bytesPerRow + imageX * 4)
+            .assumingMemoryBound(to: UInt8.self)
 
         // BGRA format
         let blue = pixelPtr[0]

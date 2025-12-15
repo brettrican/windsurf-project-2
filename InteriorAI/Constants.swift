@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 // MARK: - App Information
 enum AppConstants {
@@ -40,13 +41,13 @@ enum ARConstants {
 }
 
 // MARK: - Core ML Configuration
-enum MLConstants {
-    static let furnitureDetectionModel = "FurnitureDetector"
-    static let designRecommendationModel = "DesignRecommender"
-    static let confidenceThreshold: Float = 0.75
+public enum MLConstants {
+    public static let furnitureDetectionModel = "FurnitureDetector"
+    public static let designRecommendationModel = "DesignRecommender"
+    public static let confidenceThreshold: Float = 0.75
 
-    static let maxProcessingBatchSize = 10
-    static let modelUpdateInterval: TimeInterval = 86400 // 24 hours
+    public static let maxProcessingBatchSize = 10
+    public static let modelUpdateInterval: TimeInterval = 86400 // 24 hours
 }
 
 // MARK: - Security Configuration
@@ -103,13 +104,13 @@ enum LoggingConstants {
 }
 
 // MARK: - Vector Database Configuration
-enum VectorConstants {
-    static let maxVectorDimensions = 512
-    static let similarityThreshold: Float = 0.8
-    static let maxSearchResults = 50
+public enum VectorConstants {
+    public static let maxVectorDimensions = 512
+    public static let similarityThreshold: Float = 0.8
+    public static let maxSearchResults = 50
 
-    static let contextBatchSize = 100
-    static let vectorUpdateInterval: TimeInterval = 3600 // 1 hour
+    public static let contextBatchSize = 100
+    public static let vectorUpdateInterval: TimeInterval = 3600 // 1 hour
 }
 
 // MARK: - Error Messages

@@ -7,6 +7,7 @@
 
 import Foundation
 import Combine
+import UIKit
 
 /// HTTP methods supported by the API client
 public enum HTTPMethod: String {
@@ -127,9 +128,6 @@ public final class APIClient {
 
         // Configure security
         configuration.tlsMinimumSupportedProtocolVersion = .TLSv12
-        if #available(iOS 15.0, *) {
-            configuration.tlsMinimumSupportedProtocol = .TLSv13
-        }
 
         self.session = URLSession(configuration: configuration, delegate: nil, delegateQueue: nil)
         self.queue = DispatchQueue(label: "com.interiorai.apiclient", qos: .userInitiated)
@@ -159,63 +157,46 @@ public final class APIClient {
     }
 
     /// Performs a network request and returns raw data
-    /// - Parameter request: The API request configuration
-    /// - Returns: Publisher that emits the raw response data
     public func performDataRequest(_ request: APIRequest) -> AnyPublisher<APIResponse<Data>, APIError> {
         return performRequestWithRetry(request, decoding: .data, attempt: 0)
     }
 
     /// Uploads data to the server
-    /// - Parameters:
-    ///   - request: The API request configuration with body data
-    ///   - progress: Optional progress handler
-    /// - Returns: Publisher that emits upload progress and final response
     public func uploadData(_ request: APIRequest,
                           progress: ((Double) -> Void)? = nil) -> AnyPublisher<APIResponse<Data>, APIError> {
         guard let url = buildURL(for: request) else {
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
 
-        return queue.sync {
-            do {
-                let urlRequest = try buildURLRequest(for: request, url: url)
+        do {
+            let urlRequest = try buildURLRequest(for: request, url: url)
 
-                Logger.shared.network("Starting data upload to \(url.absoluteString)")
+            Logger.shared.network("Starting data upload to \(url.absoluteString)")
 
-                return session.dataTaskPublisher(for: urlRequest)
-                    .handleEvents(receiveOutput: { output in
-                        if let metrics = output.metrics {
-                            self.logRequestMetrics(metrics, url: url)
-                        }
-                    })
-                    .tryMap { output -> APIResponse<Data> in
-                        let response = output.response as! HTTPURLResponse
-                        let data = output.data
+            return session.dataTaskPublisher(for: urlRequest)
+                .tryMap { output -> APIResponse<Data> in
+                    let response = output.response as! HTTPURLResponse
+                    let data = output.data
 
-                        try self.validateResponse(response, data: data)
+                    try self.validateResponse(response, data: data)
 
-                        Logger.shared.network("Data upload completed successfully")
-                        return APIResponse(data: data, response: response, metrics: output.metrics)
-                    }
-                    .mapError { error in
-                        Logger.shared.network("Data upload failed: \(error.localizedDescription)", category: .network)
-                        return self.mapToAPIError(error)
-                    }
-                    .eraseToAnyPublisher()
+                    Logger.shared.network("Data upload completed successfully")
+                    return APIResponse(data: data, response: response, metrics: nil)
+                }
+                .mapError { error in
+                    Logger.shared.network("Data upload failed: \(error.localizedDescription)")
+                    return self.mapToAPIError(error)
+                }
+                .eraseToAnyPublisher()
 
-            } catch {
-                Logger.shared.network("Failed to build upload request: \(error.localizedDescription)", category: .network)
-                return Fail(error: mapToAPIError(error)).eraseToAnyPublisher()
-            }
+        } catch {
+            Logger.shared.network("Failed to build upload request: \(error.localizedDescription)")
+            return Fail(error: mapToAPIError(error)).eraseToAnyPublisher()
         }
     }
 
     // MARK: - Authentication
 
-    /// Sets the authentication tokens
-    /// - Parameters:
-    ///   - accessToken: The access token
-    ///   - refreshToken: Optional refresh token
     public func setAuthTokens(accessToken: String, refreshToken: String? = nil) {
         self.authToken = accessToken
         self.refreshToken = refreshToken
@@ -231,7 +212,6 @@ public final class APIClient {
         }
     }
 
-    /// Clears authentication tokens
     public func clearAuthTokens() {
         authToken = nil
         refreshToken = nil
@@ -243,8 +223,6 @@ public final class APIClient {
         }
     }
 
-    /// Checks if the user is authenticated
-    /// - Returns: True if valid auth tokens exist
     public func isAuthenticated() -> Bool {
         return KeychainManager.shared.hasValidAuthTokens()
     }
@@ -282,39 +260,32 @@ public final class APIClient {
             return Fail(error: APIError.invalidURL).eraseToAnyPublisher()
         }
 
-        return queue.sync {
-            do {
-                let urlRequest = try buildURLRequest(for: request, url: url)
+        do {
+            let urlRequest = try buildURLRequest(for: request, url: url)
 
-                Logger.shared.network("Starting request: \(request.endpoint.method.rawValue) \(url.absoluteString)")
+            Logger.shared.network("Starting request: \(request.endpoint.method.rawValue) \(url.absoluteString)")
 
-                return session.dataTaskPublisher(for: urlRequest)
-                    .handleEvents(receiveOutput: { output in
-                        if let metrics = output.metrics {
-                            self.logRequestMetrics(metrics, url: url)
-                        }
-                    })
-                    .tryMap { output -> APIResponse<T> in
-                        let response = output.response as! HTTPURLResponse
-                        let data = output.data
+            return session.dataTaskPublisher(for: urlRequest)
+                .tryMap { output -> APIResponse<T> in
+                    let response = output.response as! HTTPURLResponse
+                    let data = output.data
 
-                        try self.validateResponse(response, data: data)
+                    try self.validateResponse(response, data: data)
 
-                        let decodedData: T = try self.decodeResponse(data, decoding: decoding)
+                    let decodedData: T = try self.decodeResponse(data, decoding: decoding)
 
-                        Logger.shared.network("Request completed successfully")
-                        return APIResponse(data: decodedData, response: response, metrics: output.metrics)
-                    }
-                    .mapError { error in
-                        Logger.shared.network("Request failed: \(error.localizedDescription)", category: .network)
-                        return self.mapToAPIError(error)
-                    }
-                    .eraseToAnyPublisher()
+                    Logger.shared.network("Request completed successfully")
+                    return APIResponse(data: decodedData, response: response, metrics: nil)
+                }
+                .mapError { error in
+                    Logger.shared.network("Request failed: \(error.localizedDescription)")
+                    return self.mapToAPIError(error)
+                }
+                .eraseToAnyPublisher()
 
-            } catch {
-                Logger.shared.network("Failed to build request: \(error.localizedDescription)", category: .network)
-                return Fail(error: mapToAPIError(error)).eraseToAnyPublisher()
-            }
+        } catch {
+            Logger.shared.network("Failed to build request: \(error.localizedDescription)")
+            return Fail(error: mapToAPIError(error)).eraseToAnyPublisher()
         }
     }
 
@@ -486,10 +457,11 @@ public final class APIClient {
     }
 
     private func logRequestMetrics(_ metrics: URLSessionTaskMetrics, url: URL) {
-        let transactionMetrics = metrics.transactionMetrics.first
-        if let duration = transactionMetrics?.requestEndDate?.timeIntervalSince(transactionMetrics?.requestStartDate ?? Date()) {
-            Logger.shared.network("Request to \(url.absoluteString) completed in \(String(format: "%.3f", duration))s",
-                                category: .performance)
+        if let transactionMetrics = metrics.transactionMetrics.first,
+           let start = transactionMetrics.requestStartDate,
+           let end = transactionMetrics.requestEndDate {
+            let duration = end.timeIntervalSince(start)
+            Logger.shared.logPerformance("Request to \(url.absoluteString)", duration: duration)
         }
     }
 }

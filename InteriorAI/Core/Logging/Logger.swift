@@ -7,9 +7,10 @@
 
 import Foundation
 import os.log
+import UIKit
 
 /// Log levels for different types of messages
-public enum LogLevel: Int, Comparable, Codable {
+public enum LogLevel: Int, Comparable, Codable, CaseIterable {
     case debug = 0
     case info = 1
     case warning = 2
@@ -42,7 +43,7 @@ public enum LogLevel: Int, Comparable, Codable {
 }
 
 /// Log categories for organizing log messages
-public enum LogCategory: String, Codable {
+public enum LogCategory: String, Codable, CaseIterable {
     case general = "General"
     case security = "Security"
     case network = "Network"
@@ -161,12 +162,6 @@ public final class Logger {
     // MARK: - Public Logging Methods
 
     /// Logs a debug message
-    /// - Parameters:
-    ///   - message: The message to log
-    ///   - category: The category of the log message
-    ///   - file: The file where the log was called (auto-filled)
-    ///   - function: The function where the log was called (auto-filled)
-    ///   - line: The line where the log was called (auto-filled)
     public func debug(_ message: String,
                      category: LogCategory = .general,
                      file: String = #file,
@@ -176,12 +171,6 @@ public final class Logger {
     }
 
     /// Logs an info message
-    /// - Parameters:
-    ///   - message: The message to log
-    ///   - category: The category of the log message
-    ///   - file: The file where the log was called (auto-filled)
-    ///   - function: The function where the log was called (auto-filled)
-    ///   - line: The line where the log was called (auto-filled)
     public func info(_ message: String,
                     category: LogCategory = .general,
                     file: String = #file,
@@ -191,12 +180,6 @@ public final class Logger {
     }
 
     /// Logs a warning message
-    /// - Parameters:
-    ///   - message: The message to log
-    ///   - category: The category of the log message
-    ///   - file: The file where the log was called (auto-filled)
-    ///   - function: The function where the log was called (auto-filled)
-    ///   - line: The line where the log was called (auto-filled)
     public func warning(_ message: String,
                        category: LogCategory = .general,
                        file: String = #file,
@@ -206,13 +189,6 @@ public final class Logger {
     }
 
     /// Logs an error message
-    /// - Parameters:
-    ///   - message: The message to log
-    ///   - error: Optional error object
-    ///   - category: The category of the log message
-    ///   - file: The file where the log was called (auto-filled)
-    ///   - function: The function where the log was called (auto-filled)
-    ///   - line: The line where the log was called (auto-filled)
     public func error(_ message: String,
                      error: Error? = nil,
                      category: LogCategory = .general,
@@ -227,13 +203,6 @@ public final class Logger {
     }
 
     /// Logs a critical message
-    /// - Parameters:
-    ///   - message: The message to log
-    ///   - error: Optional error object
-    ///   - category: The category of the log message
-    ///   - file: The file where the log was called (auto-filled)
-    ///   - function: The function where the log was called (auto-filled)
-    ///   - line: The line where the log was called (auto-filled)
     public func critical(_ message: String,
                         error: Error? = nil,
                         category: LogCategory = .general,
@@ -541,6 +510,11 @@ public extension Logger {
     /// Logs detection-related events
     func detection(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
         log(message, level: .info, category: .detection, file: file, function: function, line: line)
+    }
+
+    /// Logs lifecycle-related events
+    func lifecycle(_ message: String, file: String = #file, function: String = #function, line: Int = #line) {
+        log(message, level: .info, category: .lifecycle, file: file, function: function, line: line)
     }
 }
 
